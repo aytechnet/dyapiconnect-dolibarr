@@ -1,0 +1,73 @@
+# Copyright (C) 2023 François Pons <fpons@aytechnet.fr>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#
+# Generic
+#
+
+# Module label 'ModuleDyaPiConnectName'
+ModuleDyaPiConnectName = DyaPiConnect
+# Module description 'ModuleDyaPiConnectDesc'
+ModuleDyaPiConnectDesc = Enable connection with DyaPi Microservices
+
+#
+# Admin page
+#
+DyaPiConnectSetup = DyaPiConnect setup
+Settings = Settings
+DyaPiConnectSetupPage = Link this Dolibarr to your DyaPi account. Choose below the modules to pre-activate for a typical DyaPi-connected setup, then click "Link to my DyaPi account": you will be taken to DyaPi to sign in (or create your account) and confirm the link, then back here. Your DyaPi identifiers stay on this server and are never displayed.
+DyaPiConnectSetupPageConnected = This Dolibarr is connected to DyaPi. You can adjust the pre-activated modules below, then open it in DyaPi to manage the connection or link it to your account. You will be taken to DyaPi and brought back here afterwards.
+OptionDyaPiConnectMode = Mode
+OptionDyaPiConnectModeMinimalist = Minimalist
+OptionDyaPiConnectModeMinimalistDesc = Minimalist mode with only '%s' internal admin user created with a DOLAPIKEY generated if needed<br>REST API module is activated as DyaPi Microservices will use it with its user rights which are not modified, so you may have to enable rights explicitely on this user
+OptionDyaPiConnectModePropale = Propale
+OptionDyaPiConnectModePropaleDesc = Propale mode includes minimalist mode above and the following modules activated: Third parties, Propales<br><br>This mode allows display of propales in the customer area of a connected e-commerce (such as DyaCommerce)
+OptionDyaPiConnectModeInvoice = Invoice
+OptionDyaPiConnectModeInvoiceDesc = Invoice mode includes minimalist mode above and the following modules activated: Third parties, Invoices, Banks & cash<br><br>This mode allows display of invoices in the customer area of a connected e-commerce (such as DyaCommerce)
+OptionDyaPiConnectModeECommerce = E-Commerce
+OptionDyaPiConnectModeECommerceDesc = E-Commerce mode includes minimalist mode above and the following modules activated: Third parties, Sales orders, Shipments, Invoices, Banks & cash, Products, Stocks<br><br>You may deactivate some modules if you don't need them at all but this list allows connecting an e-commerce software nicely with Dolibarr for handling payments of orders, invoices generation and stock update back to e-commerce
+ButtonConnectDyaPi = Link to my DyaPi account
+ButtonManageDyaPiConnection = Manage on DyaPi
+
+#
+# About page
+#
+About = About
+DyaPiConnectAbout = About DyaPiConnect
+DyaPiConnectAboutPage = DyaPiConnect about page
+
+#
+# ChorusPro confirmation on invoice validation
+#
+DyaPiConnectChorusProConfirmQuestion = Do you want to send this invoice to ChorusPro?
+
+#
+# Factur-X enrichment (ActionComm events on the invoice)
+#
+DyaPiConnectFacturxEventOKLabel = DyaPiConnect: Factur-X generated
+DyaPiConnectFacturxEventKOLabel = DyaPiConnect: Factur-X failed
+DyaPiConnectFacturxEventOKHeader = Factur-X stored by DyaPi
+DyaPiConnectFacturxEventKOHeader = Factur-X generation FAILED
+DyaPiConnectFacturxStatusOK = Status: OK
+DyaPiConnectFacturxStatusKO = Status: ERROR
+DyaPiConnectFacturxConformance = Conformance: %s
+DyaPiConnectFacturxSha256 = SHA-256: %s
+DyaPiConnectFacturxAlready = Already Factur-X: %s
+DyaPiConnectFacturxAlreadyYes = yes
+DyaPiConnectFacturxAlreadyNo = no
+DyaPiConnectFacturxLicence = DyaPi licence: %s
+DyaPiConnectFacturxError = Error: %s
+DyaPiConnectFacturxAt = At: %s
+DyaPiConnectFacturxNoResponse = no response / generation failed

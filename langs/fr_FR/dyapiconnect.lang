@@ -1,0 +1,73 @@
+# Copyright (C) 2023 François Pons <fpons@aytechnet.fr>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+#
+# Generic
+#
+
+# Module label 'ModuleDyaPiConnectName'
+ModuleDyaPiConnectName = DyaPiConnect
+# Module description 'ModuleDyaPiConnectDesc'
+ModuleDyaPiConnectDesc = Active la connexion avec les micro-services DyaPi
+
+#
+# Admin page
+#
+DyaPiConnectSetup = Configuration de DyaPiConnect
+Settings = Paramètres
+DyaPiConnectSetupPage = Reliez ce Dolibarr à votre compte DyaPi. Choisissez ci-dessous les modules à pré-activer pour une utilisation typique avec DyaPi, puis cliquez sur « Rattacher à mon compte DyaPi » : vous serez redirigé vers DyaPi pour vous connecter (ou créer votre compte) et confirmer le rattachement, puis ramené ici. Vos identifiants DyaPi restent sur ce serveur et ne sont jamais affichés.
+DyaPiConnectSetupPageConnected = Ce Dolibarr est connecté à DyaPi. Vous pouvez ajuster ci-dessous les modules pré-activés, puis l'ouvrir dans DyaPi pour gérer la connexion ou la rattacher à votre compte. Vous serez redirigé vers DyaPi puis ramené ici.
+OptionDyaPiConnectMode = Mode
+OptionDyaPiConnectModeMinimalist = Minimaliste
+OptionDyaPiConnectModeMinimalistDesc = Mode minimaliste avec uniquement l'utilisateur d'administration interne « %s » créé, avec une clé DOLAPIKEY générée si nécessaire<br>Le module API REST est activé car les micro-services DyaPi l'utiliseront avec les droits de cet utilisateur, qui ne sont pas modifiés : vous devrez donc peut-être activer explicitement les droits sur cet utilisateur
+OptionDyaPiConnectModePropale = Proposition commerciale
+OptionDyaPiConnectModePropaleDesc = Le mode proposition inclut le mode minimaliste ci-dessus et active les modules suivants : Tiers, Propositions commerciales<br><br>Ce mode permet l'affichage des propositions dans l'espace client d'un e-commerce connecté (par exemple DyaCommerce)
+OptionDyaPiConnectModeInvoice = Facture
+OptionDyaPiConnectModeInvoiceDesc = Le mode facture inclut le mode minimaliste ci-dessus et active les modules suivants : Tiers, Factures, Banques & caisses<br><br>Ce mode permet l'affichage des factures dans l'espace client d'un e-commerce connecté (par exemple DyaCommerce)
+OptionDyaPiConnectModeECommerce = E-Commerce
+OptionDyaPiConnectModeECommerceDesc = Le mode e-commerce inclut le mode minimaliste ci-dessus et active les modules suivants : Tiers, Commandes clients, Expéditions, Factures, Banques & caisses, Produits, Stocks<br><br>Vous pouvez désactiver certains modules si vous n'en avez pas besoin, mais cette liste permet de connecter proprement un logiciel e-commerce avec Dolibarr pour gérer les paiements des commandes, la génération des factures et la mise à jour des stocks vers l'e-commerce
+ButtonConnectDyaPi = Rattacher à mon compte DyaPi
+ButtonManageDyaPiConnection = Gérer sur DyaPi
+
+#
+# About page
+#
+About = À propos
+DyaPiConnectAbout = À propos de DyaPiConnect
+DyaPiConnectAboutPage = Page « À propos » de DyaPiConnect
+
+#
+# Confirmation ChorusPro à la validation de facture
+#
+DyaPiConnectChorusProConfirmQuestion = Souhaitez-vous envoyer cette facture sur ChorusPro ?
+
+#
+# Enrichissement Factur-X (événements ActionComm sur la facture)
+#
+DyaPiConnectFacturxEventOKLabel = DyaPiConnect : Factur-X générée
+DyaPiConnectFacturxEventKOLabel = DyaPiConnect : échec Factur-X
+DyaPiConnectFacturxEventOKHeader = Factur-X enregistrée par DyaPi
+DyaPiConnectFacturxEventKOHeader = Échec de génération de la Factur-X
+DyaPiConnectFacturxStatusOK = Statut : OK
+DyaPiConnectFacturxStatusKO = Statut : ERREUR
+DyaPiConnectFacturxConformance = Conformité : %s
+DyaPiConnectFacturxSha256 = SHA-256 : %s
+DyaPiConnectFacturxAlready = Déjà Factur-X : %s
+DyaPiConnectFacturxAlreadyYes = oui
+DyaPiConnectFacturxAlreadyNo = non
+DyaPiConnectFacturxLicence = Licence DyaPi : %s
+DyaPiConnectFacturxError = Erreur : %s
+DyaPiConnectFacturxAt = Le : %s
+DyaPiConnectFacturxNoResponse = pas de réponse / échec de génération
