@@ -71,3 +71,6 @@ DyaPiConnectFacturxLicence = Licence DyaPi : %s
 DyaPiConnectFacturxError = Erreur : %s
 DyaPiConnectFacturxAt = Le : %s
 DyaPiConnectFacturxNoResponse = pas de réponse / échec de génération
+DyaPiConnectTransmittedLabel = Transmise à la PDP (facturation électronique)
+DyaPiConnectTransmittedHelp = Positionné automatiquement par DyaPi une fois la facture transmise à la plateforme agréée (PDP). Une facture transmise est juridiquement immuable et ne peut plus être supprimée, dévalidée ni modifiée.
+DyaPiConnectErrorInvoiceTransmitted = Cette facture a été transmise à la PDP (facturation électronique) et est juridiquement immuable : elle ne peut plus être supprimée, dévalidée ni modifiée.

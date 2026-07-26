@@ -71,3 +71,6 @@ DyaPiConnectFacturxLicence = DyaPi licence: %s
 DyaPiConnectFacturxError = Error: %s
 DyaPiConnectFacturxAt = At: %s
 DyaPiConnectFacturxNoResponse = no response / generation failed
+DyaPiConnectTransmittedLabel = Transmitted to the PDP (e-invoicing)
+DyaPiConnectTransmittedHelp = Set automatically by DyaPi once the invoice has been transmitted to the certified platform (PDP). A transmitted invoice is legally immutable and can no longer be deleted, un-validated or modified.
+DyaPiConnectErrorInvoiceTransmitted = This invoice has been transmitted to the PDP (electronic invoicing) and is legally immutable: it can no longer be deleted, un-validated or modified.

@@ -21,7 +21,7 @@
  * \brief   Library files with common functions for DyaPiConnect
  */
 
-define("DYAPICONNECT_VERSION", "1.0.0");
+define("DYAPICONNECT_VERSION", "1.0.1");
 
 require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php";
 

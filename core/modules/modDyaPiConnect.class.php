@@ -289,6 +289,23 @@ class modDyaPiConnect extends DolibarrModules {
 			return -1; // Do not activate module if error 'not allowed' returned when loading module SQL queries (the _load_table run sql with run_sql with the error allowed parameter set to 'default')
 		}
 
+		// e-invoicing lock: a boolean flag DyaPi sets (via signalLock/REST) once the invoice has been
+		// transmitted to the PDP; the module trigger then rejects any delete/unvalidate/modify. Created
+		// with alwayseditable=0 so a user cannot clear it on a validated invoice — only DyaPi sets it.
+		require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
+		$extrafields = new ExtraFields($this->db);
+		// param must be a string ('' = no options for a boolean); an array triggers strlen() in create_label().
+		// Best-effort: never let an extrafield hiccup abort the whole module activation.
+		try {
+			$extrafields->addExtraField(
+				'dyapiconnect_transmitted', 'DyaPiConnectTransmittedLabel', 'boolean',
+				100, '', 'facture', 0, 0, '', '', 0, '', 1,
+				'DyaPiConnectTransmittedHelp', '', '', 'dyapiconnect@dyapiconnect'
+			);
+		} catch (Throwable $e) {
+			dol_syslog('DyaPiConnect: could not create the dyapiconnect_transmitted extrafield: '.$e->getMessage(), LOG_WARNING);
+		}
+
 		// Permissions
 		$this->remove($options);
 

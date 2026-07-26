@@ -218,9 +218,46 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 	 * @param Conf 			$conf 		Object conf
 	 * @return int              		<0 if KO, 0 if no triggered ran, >0 if OK
 	 */
+	/**
+	 * Once an invoice has been transmitted to the PDP (Factur-X e-invoicing), it is legally immutable.
+	 * DyaPi's signalLock writeback sets the 'dyapiconnect_transmitted' extrafield; this reads it,
+	 * preferring the in-memory value (which survives the row deletion during BILL_DELETE) and falling
+	 * back to the database otherwise. Fail-open: a missing extrafield never blocks a normal operation.
+	 *
+	 * @param	CommonObject	$object		the invoice (element 'facture')
+	 * @return	bool						true if the invoice is locked (transmitted to the PDP)
+	 */
+	private function dyapiconnectInvoiceTransmitted($object)
+	{
+		if (empty($object) || empty($object->element) || $object->element != 'facture' || empty($object->id)) {
+			return false;
+		}
+		if (isset($object->array_options['options_dyapiconnect_transmitted'])) {
+			return !empty($object->array_options['options_dyapiconnect_transmitted']);
+		}
+		$sql = "SELECT dyapiconnect_transmitted FROM ".MAIN_DB_PREFIX."facture_extrafields WHERE fk_object = ".(int) $object->id;
+		$resql = $this->db->query($sql);
+		if ($resql && ($obj = $this->db->fetch_object($resql))) {
+			return !empty($obj->dyapiconnect_transmitted);
+		}
+		return false;
+	}
+
 	public function runTrigger($action, $object, User $user, Translate $langs, Conf $conf) {
 		if (empty($user) || $user->login == 'dyapi' || empty($conf->dyapiconnect) || empty($conf->dyapiconnect->enabled)) {
 			return 0; // If module is not enabled, we do nothing
+		}
+
+		// e-invoicing lock: an invoice transmitted to the PDP is legally immutable. Reject its deletion,
+		// its un-validation (the gateway to editing) and any modification. Returning < 0 aborts the action
+		// (Dolibarr rolls the transaction back). The 'dyapi' user is excluded above, so DyaPi's own
+		// signalLock writeback of the flag is never blocked.
+		if (in_array($action, array('BILL_DELETE', 'BILL_UNVALIDATE', 'BILL_MODIFY'), true)
+			&& $this->dyapiconnectInvoiceTransmitted($object)) {
+			$langs->load("dyapiconnect@dyapiconnect");
+			$this->error = $langs->trans('DyaPiConnectErrorInvoiceTransmitted');
+			$this->errors[] = $this->error;
+			return -1;
 		}
 
 		// Data and type of action are stored into $object and $action
