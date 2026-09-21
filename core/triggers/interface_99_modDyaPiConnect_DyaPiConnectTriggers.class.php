@@ -167,7 +167,7 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 	/**
 	 * Add event to journal
 	 *
-	 * @return void
+	 * @return int 1 if the journal entry was inserted/updated, -1 on SQL error, 0 when no usable $conf/entity
 	 */
 	private function addToJournal($object_id, $object_type) {
 		global $conf, $user;

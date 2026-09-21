@@ -54,6 +54,11 @@ class ActionsDyapiconnect
 	public $resprints;
 
 	/**
+	 * @var string Report buffer read by the Dolibarr cron module after a scheduled job run
+	 */
+	public $output;
+
+	/**
 	 * @var int		Priority of hook (50 is used if value is not defined)
 	 */
 	public $priority;
@@ -106,12 +111,17 @@ class ActionsDyapiconnect
 					// code taken from facture/card.php for valid action, in order to redo valid formconfirm with additional questions as well
 					$objectref = substr($object->ref, 1, 4);
 					if ($objectref == 'PROV') {
+						// getNextNumRef() needs the invoice thirdparty (numbering masks may use it);
+						// in facture/card.php this is the page-level $soc, unavailable in this hook context
+						if (empty($object->thirdparty)) {
+							$object->fetch_thirdparty();
+						}
 						$savdate = $object->date;
 						if (!empty($conf->global->FAC_FORCE_DATE_VALIDATION)) {
 							$object->date = dol_now();
 							$object->date_lim_reglement = $object->calculate_date_lim_reglement();
 						}
-						$numref = $object->getNextNumRef($soc);
+						$numref = $object->getNextNumRef($object->thirdparty);
 						// $object->date=$savdate;
 					} else {
 						$numref = $object->ref;
