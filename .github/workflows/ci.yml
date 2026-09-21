@@ -28,6 +28,7 @@ jobs:
           set -e
           find . -name '*.php' -not -path './dolibarr/*' -print0 \
             | xargs -0 -n1 php -l
+          echo "✅ php -l clean on PHP ${{ matrix.php }}" >> "$GITHUB_STEP_SUMMARY"
 
   phpstan:
     name: phpstan (level 0, Dolibarr symbols)
@@ -53,3 +54,14 @@ jobs:
 
       - name: Analyse
         run: php phpstan.phar analyse -c phpstan.neon --memory-limit=2G --no-progress
+
+      - name: Job summary
+        run: |
+          {
+            echo "## DyaPiConnect — static analysis report"
+            echo ""
+            echo "PHPStan **2.2.14**, level 0 — ✅ no errors"
+            echo ""
+            echo "Symbols resolved against Dolibarr 20.0 sources; DOL_DOCUMENT_ROOT require paths"
+            echo "excluded by identifier (only resolvable inside a live install — see phpstan.neon)."
+          } >> "$GITHUB_STEP_SUMMARY"
