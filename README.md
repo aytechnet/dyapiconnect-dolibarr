@@ -1,6 +1,10 @@
 # DyaPiConnect for [Dolibarr ERP CRM](https://www.dolibarr.org)
 
 [![ci](https://github.com/aytechnet/dyapiconnect-dolibarr/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aytechnet/dyapiconnect-dolibarr/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/aytechnet/dyapiconnect-dolibarr)](https://github.com/aytechnet/dyapiconnect-dolibarr/releases)
+[![PHP 7.4–8.4](https://img.shields.io/badge/PHP-7.4%E2%80%938.4-777BB4?logo=php&logoColor=white)](https://github.com/aytechnet/dyapiconnect-dolibarr/actions/workflows/ci.yml)
+[![Dolibarr ≥ 18.0](https://img.shields.io/badge/Dolibarr-%E2%89%A5%2018.0-263c5c)](https://www.dolibarr.org)
+[![License: GPL-3.0](https://img.shields.io/github/license/aytechnet/dyapiconnect-dolibarr)](https://github.com/aytechnet/dyapiconnect-dolibarr/blob/main/COPYING)
 
 DyaPiConnect links your Dolibarr to the [DyaPi](https://dyapi.io) micro-services, which interconnect
 your e-commerce / booking software with Dolibarr and other platforms.
