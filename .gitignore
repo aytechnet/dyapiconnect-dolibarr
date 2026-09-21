@@ -1,3 +1,4 @@
 # Build artefacts (Dolistore zip)
 /dist/
 *.zip
+/dolibarr

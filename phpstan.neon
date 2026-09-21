@@ -1,0 +1,20 @@
+# Static analysis for the DyaPiConnect module, analysed out-of-tree.
+# The Dolibarr sources are expected in ./dolibarr (fetched by the ci workflow);
+# scanDirectories lets PHPStan resolve core classes and functions without
+# analysing Dolibarr itself.
+parameters:
+  level: 0
+  paths:
+    - admin
+    - class
+    - core
+    - lib
+  scanDirectories:
+    - dolibarr/htdocs
+  ignoreErrors:
+    # DOL_DOCUMENT_ROOT-based require/include paths only resolve inside a live
+    # Dolibarr install (htdocs/custom/dyapiconnect); out-of-tree analysis cannot
+    # stat them. The symbols they provide are resolved via scanDirectories.
+    - identifier: requireOnce.fileNotFound
+    - identifier: includeOnce.fileNotFound
+    - identifier: include.fileNotFound

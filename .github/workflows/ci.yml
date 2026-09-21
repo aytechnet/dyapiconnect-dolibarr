@@ -1,0 +1,55 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  syntax:
+    name: php -l (${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Dolibarr >= 18.0 runs on PHP 7.4 up to current releases
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Syntax check
+        run: |
+          set -e
+          find . -name '*.php' -not -path './dolibarr/*' -print0 \
+            | xargs -0 -n1 php -l
+
+  phpstan:
+    name: phpstan (level 0, Dolibarr symbols)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Dolibarr sources (symbols only)
+        uses: actions/checkout@v4
+        with:
+          repository: Dolibarr/dolibarr
+          ref: '20.0'
+          path: dolibarr
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install PHPStan
+        # pinned: validated locally against this exact version
+        run: curl -sSL -o phpstan.phar https://github.com/phpstan/phpstan/releases/download/2.2.14/phpstan.phar
+
+      - name: Analyse
+        run: php phpstan.phar analyse -c phpstan.neon --memory-limit=2G --no-progress

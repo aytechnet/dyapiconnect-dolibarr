@@ -1,5 +1,7 @@
 # DyaPiConnect for [Dolibarr ERP CRM](https://www.dolibarr.org)
 
+[![ci](https://github.com/aytechnet/dyapiconnect-dolibarr/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aytechnet/dyapiconnect-dolibarr/actions/workflows/ci.yml)
+
 DyaPiConnect links your Dolibarr to the [DyaPi](https://dyapi.io) micro-services, which interconnect
 your e-commerce / booking software with Dolibarr and other platforms.
 
