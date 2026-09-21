@@ -276,16 +276,30 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 				return 0;
 
 			// Users
-			//case 'USER_CREATE':
-			//case 'USER_MODIFY':
-			//case 'USER_NEW_PASSWORD':
-			//case 'USER_ENABLEDISABLE':
-			//case 'USER_DELETE':
+			case 'USER_CREATE':
+			case 'USER_MODIFY':
+			case 'USER_NEW_PASSWORD':
+			case 'USER_ENABLEDISABLE':
+			case 'USER_DELETE':
+				$object_type = self::TYPE_USER;
+				$object_id = $object->id;
+				break;
 
-			// Actions
-			//case 'ACTION_MODIFY':
-			//case 'ACTION_CREATE':
-			//case 'ACTION_DELETE':
+			// Actions (agenda events)
+			case 'ACTION_MODIFY':
+			case 'ACTION_CREATE':
+			case 'ACTION_DELETE':
+				$object_type = self::TYPE_EVENT;
+				$object_id = $object->id;
+				break;
+
+			// Resources
+			case 'RESOURCE_CREATE':
+			case 'RESOURCE_MODIFY':
+			case 'RESOURCE_DELETE':
+				$object_type = self::TYPE_RESSOURCE;
+				$object_id = $object->id;
+				break;
 
 			// Groups
 			//case 'USERGROUP_CREATE':
@@ -320,8 +334,17 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 				$object_id = $object->id;
 				break;
 
-			//Stock mouvement
+			//Stock mouvement — the trigger object is the MOVEMENT (not the product): mapping it
+			// to TYPE_PRODUCT needs $object->product_id, to wire only when a stock consumer exists
 			//case 'STOCK_MOVEMENT':
+
+			// Warehouses
+			case 'WAREHOUSE_CREATE':
+			case 'WAREHOUSE_MODIFY':
+			case 'WAREHOUSE_DELETE':
+				$object_type = self::TYPE_WAREHOUSE;
+				$object_id = $object->id;
+				break;
 
 			//MYECMDIR
 			//case 'MYECMDIR_CREATE':
@@ -345,54 +368,77 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 				break;
 
 			// Supplier orders
-			//case 'ORDER_SUPPLIER_CREATE':
-			//case 'ORDER_SUPPLIER_MODIFY':
-			//case 'ORDER_SUPPLIER_VALIDATE':
-			//case 'ORDER_SUPPLIER_DELETE':
-			//case 'ORDER_SUPPLIER_APPROVE':
-			//case 'ORDER_SUPPLIER_REFUSE':
-			//case 'ORDER_SUPPLIER_CANCEL':
-			//case 'ORDER_SUPPLIER_SENTBYMAIL':
-			//case 'ORDER_SUPPLIER_DISPATCH':
+			case 'ORDER_SUPPLIER_CREATE':
+			case 'ORDER_SUPPLIER_MODIFY':
+			case 'ORDER_SUPPLIER_VALIDATE':
+			case 'ORDER_SUPPLIER_DELETE':
+			case 'ORDER_SUPPLIER_APPROVE':
+			case 'ORDER_SUPPLIER_REFUSE':
+			case 'ORDER_SUPPLIER_CANCEL':
+			case 'ORDER_SUPPLIER_SENTBYMAIL':
+			case 'ORDER_SUPPLIER_DISPATCH':
+				$object_type = self::TYPE_SUPPLIER_ORDER;
+				$object_id = $object->id;
+				break;
 			//case 'LINEORDER_SUPPLIER_DISPATCH':
 			//case 'LINEORDER_SUPPLIER_CREATE':
 			//case 'LINEORDER_SUPPLIER_UPDATE':
 			//case 'LINEORDER_SUPPLIER_DELETE':
 
 			// Proposals
-			//case 'PROPAL_CREATE':
-			//case 'PROPAL_MODIFY':
-			//case 'PROPAL_VALIDATE':
-			//case 'PROPAL_SENTBYMAIL':
-			//case 'PROPAL_CLOSE_SIGNED':
-			//case 'PROPAL_CLOSE_REFUSED':
-			//case 'PROPAL_DELETE':
+			case 'PROPAL_CREATE':
+			case 'PROPAL_MODIFY':
+			case 'PROPAL_VALIDATE':
+			case 'PROPAL_SENTBYMAIL':
+			case 'PROPAL_CLOSE_SIGNED':
+			case 'PROPAL_CLOSE_REFUSED':
+			case 'PROPAL_DELETE':
+				$object_type = self::TYPE_PROPALE;
+				$object_id = $object->id;
+				break;
 			//case 'LINEPROPAL_INSERT':
 			//case 'LINEPROPAL_UPDATE':
 			//case 'LINEPROPAL_DELETE':
 
 			// SupplierProposal
-			//case 'SUPPLIER_PROPOSAL_CREATE':
-			//case 'SUPPLIER_PROPOSAL_MODIFY':
-			//case 'SUPPLIER_PROPOSAL_VALIDATE':
-			//case 'SUPPLIER_PROPOSAL_SENTBYMAIL':
-			//case 'SUPPLIER_PROPOSAL_CLOSE_SIGNED':
-			//case 'SUPPLIER_PROPOSAL_CLOSE_REFUSED':
-			//case 'SUPPLIER_PROPOSAL_DELETE':
+			case 'SUPPLIER_PROPOSAL_CREATE':
+			case 'SUPPLIER_PROPOSAL_MODIFY':
+			case 'SUPPLIER_PROPOSAL_VALIDATE':
+			case 'SUPPLIER_PROPOSAL_SENTBYMAIL':
+			case 'SUPPLIER_PROPOSAL_CLOSE_SIGNED':
+			case 'SUPPLIER_PROPOSAL_CLOSE_REFUSED':
+			case 'SUPPLIER_PROPOSAL_DELETE':
+				$object_type = self::TYPE_SUPPLIER_PROPALE;
+				$object_id = $object->id;
+				break;
 			//case 'LINESUPPLIER_PROPOSAL_INSERT':
 			//case 'LINESUPPLIER_PROPOSAL_UPDATE':
 			//case 'LINESUPPLIER_PROPOSAL_DELETE':
 
 			// Contracts
-			//case 'CONTRACT_CREATE':
-			//case 'CONTRACT_MODIFY':
-			//case 'CONTRACT_ACTIVATE':
-			//case 'CONTRACT_CANCEL':
-			//case 'CONTRACT_CLOSE':
-			//case 'CONTRACT_DELETE':
+			case 'CONTRACT_CREATE':
+			case 'CONTRACT_MODIFY':
+			case 'CONTRACT_ACTIVATE':
+			case 'CONTRACT_CANCEL':
+			case 'CONTRACT_CLOSE':
+			case 'CONTRACT_DELETE':
+				$object_type = self::TYPE_CONTRACT;
+				$object_id = $object->id;
+				break;
 			//case 'LINECONTRACT_INSERT':
 			//case 'LINECONTRACT_UPDATE':
 			//case 'LINECONTRACT_DELETE':
+
+			// Tickets — signal only (DyaPi acknowledges without effect today; a future
+			// consumer is a server-side evolution, no module release)
+			case 'TICKET_CREATE':
+			case 'TICKET_MODIFY':
+			case 'TICKET_ASSIGNED':
+			case 'TICKET_CLOSE':
+			case 'TICKET_DELETE':
+				$object_type = self::TYPE_TICKET;
+				$object_id = $object->id;
+				break;
 
 			// Bills
 			case 'BILL_CREATE':
@@ -410,14 +456,21 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 				$object_id = $object->id;
 				break;
 
-			//Supplier Bill
+			//Supplier Bill — the notification model: the signal only says "this supplier
+			// invoice changed", DyaPi loads the object and reacts to its ACTUAL state (validated
+			// = the buyer's acceptance -> lifecycle status pushed to the PDP; deleted -> the
+			// imported draft becomes transferable again; paid -> reserved for future lifecycle
+			// statuses). One module release covers them all.
+			case 'BILL_SUPPLIER_VALIDATE':
+			case 'BILL_SUPPLIER_UNVALIDATE':
+			case 'BILL_SUPPLIER_DELETE':
+			case 'BILL_SUPPLIER_PAYED':
+			case 'BILL_SUPPLIER_UNPAYED':
+				$object_type = self::TYPE_SUPPLIER_INVOICE;
+				$object_id = $object->id;
+				break;
 			//case 'BILL_SUPPLIER_CREATE':
 			//case 'BILL_SUPPLIER_UPDATE':
-			//case 'BILL_SUPPLIER_DELETE':
-			//case 'BILL_SUPPLIER_PAYED':
-			//case 'BILL_SUPPLIER_UNPAYED':
-			//case 'BILL_SUPPLIER_VALIDATE':
-			//case 'BILL_SUPPLIER_UNVALIDATE':
 			//case 'LINEBILL_SUPPLIER_CREATE':
 			//case 'LINEBILL_SUPPLIER_UPDATE':
 			//case 'LINEBILL_SUPPLIER_DELETE':
@@ -439,28 +492,38 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 			//case 'DON_DELETE':
 
 			// Interventions
-			//case 'FICHINTER_CREATE':
-			//case 'FICHINTER_MODIFY':
-			//case 'FICHINTER_VALIDATE':
-			//case 'FICHINTER_DELETE':
+			case 'FICHINTER_CREATE':
+			case 'FICHINTER_MODIFY':
+			case 'FICHINTER_VALIDATE':
+			case 'FICHINTER_DELETE':
+				$object_type = self::TYPE_INTERVENTION;
+				$object_id = $object->id;
+				break;
 			//case 'LINEFICHINTER_CREATE':
 			//case 'LINEFICHINTER_UPDATE':
 			//case 'LINEFICHINTER_DELETE':
 
-			// Members
-			//case 'MEMBER_CREATE':
-			//case 'MEMBER_VALIDATE':
+			// Members — subscription events stay off: their trigger object is the SUBSCRIPTION
+			// (its own id), not the member; wire via fk_adherent when a consumer exists
+			case 'MEMBER_CREATE':
+			case 'MEMBER_VALIDATE':
+			case 'MEMBER_MODIFY':
+			case 'MEMBER_RESILIATE':
+			case 'MEMBER_DELETE':
+				$object_type = self::TYPE_MEMBER;
+				$object_id = $object->id;
+				break;
 			//case 'MEMBER_SUBSCRIPTION':
-			//case 'MEMBER_MODIFY':
 			//case 'MEMBER_NEW_PASSWORD':
-			//case 'MEMBER_RESILIATE':
-			//case 'MEMBER_DELETE':
 
 			// Categories
-			//case 'CATEGORY_CREATE':
-			//case 'CATEGORY_MODIFY':
-			//case 'CATEGORY_DELETE':
-			//case 'CATEGORY_SET_MULTILANGS':
+			case 'CATEGORY_CREATE':
+			case 'CATEGORY_MODIFY':
+			case 'CATEGORY_DELETE':
+			case 'CATEGORY_SET_MULTILANGS':
+				$object_type = self::TYPE_CATEGORY;
+				$object_id = $object->id;
+				break;
 
 			// Projects
 			//case 'PROJECT_CREATE':
@@ -481,14 +544,26 @@ class InterfaceDyaPiConnectTriggers extends DolibarrTriggers {
 			//case 'PROJECT_DELETE_RESOURCE':
 
 			// Shipping
-			//case 'SHIPPING_CREATE':
-			//case 'SHIPPING_MODIFY':
-			//case 'SHIPPING_VALIDATE':
-			//case 'SHIPPING_SENTBYMAIL':
-			//case 'SHIPPING_BILLED':
-			//case 'SHIPPING_CLOSED':
-			//case 'SHIPPING_REOPEN':
-			//case 'SHIPPING_DELETE':
+			case 'SHIPPING_CREATE':
+			case 'SHIPPING_MODIFY':
+			case 'SHIPPING_VALIDATE':
+			case 'SHIPPING_SENTBYMAIL':
+			case 'SHIPPING_BILLED':
+			case 'SHIPPING_CLOSED':
+			case 'SHIPPING_REOPEN':
+			case 'SHIPPING_DELETE':
+				$object_type = self::TYPE_SHIPMENT;
+				$object_id = $object->id;
+				break;
+
+			// Receptions (supplier shipments, Reception module)
+			case 'RECEPTION_CREATE':
+			case 'RECEPTION_MODIFY':
+			case 'RECEPTION_VALIDATE':
+			case 'RECEPTION_DELETE':
+				$object_type = self::TYPE_SUPPLIER_SHIPMENT;
+				$object_id = $object->id;
+				break;
 
 			// and more...
 		}
